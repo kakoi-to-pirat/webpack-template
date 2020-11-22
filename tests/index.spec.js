@@ -1,5 +1,5 @@
-describe('Criteo service', () => {
-  test('Expected initial Criteo ', () => {
+describe('Base test case', () => {
+  test('First test', () => {
     expect(true).toEqual(true);
   });
 });
