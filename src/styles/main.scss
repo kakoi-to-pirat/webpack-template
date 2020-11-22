@@ -1,0 +1,37 @@
+@import "fonts.css";
+@import "variables.css";
+
+html {
+    font-family: 'Roboto-Regular', sans-serif;
+    font-size: var(--fontSize);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#app {
+    display: grid;
+    min-height: 100vh;
+    background-color: var(--bgColor);
+
+    overflow: hidden auto;
+    line-height: calc(var(--fontSize) * 1.5);
+
+    &::after {
+        content: ' ';
+    }
+}
+
+h1 {
+    color: red;
+}
+
+h2 {
+    color: red;
+}
+
+h3 {
+    color: red;
+}
