@@ -20,7 +20,7 @@ module.exports = {
     path: PATHS,
   },
   entry: {
-    app: ['@babel/polyfill', './App.ts'],
+    app: ['@babel/polyfill', './index.tsx'],
   },
   output: {
     filename: '[name].[contenthash].js',
@@ -28,7 +28,7 @@ module.exports = {
     publicPath: '',
   },
   resolve: {
-    extensions: ['.js', '.ts'],
+    extensions: ['.js', '.ts', '.jsx', '.tsx'],
     alias: {
       '~': PATHS.src,
     },
@@ -48,14 +48,30 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js|ts)$/,
+        test: /\.(js|ts|jsx|tsx)$/,
         exclude: /node_modules/,
         use: ['babel-loader'],
       },
       {
         test: /\.(css|scss)$/,
         exclude: /node_modules/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'],
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              esModule: true,
+            },
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                auto: true,
+                localIdentName: '[local]--[hash:base64:5]',
+              },
+            },
+          },
+          'postcss-loader'],
       },
       {
         test: /\.(png|jpg|svg|ttf|eot|woff|woff2)$/,
