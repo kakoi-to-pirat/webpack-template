@@ -23,7 +23,6 @@
   },
   "lint-staged": {
     "*.{js,ts}": [
-      "lint:css",
       "lint",
       "git add"
     ]
