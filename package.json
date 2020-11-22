@@ -14,7 +14,7 @@
     "build": "webpack --config ./build/webpack.prod.conf.js",
     "dev": "webpack --config ./build/webpack.dev.conf.js --progress",
     "lint": "eslint --ext .js,.ts src/",
-    "fix": "eslint --ext .js,.ts ./src --fix",
+    "fix": "eslint --ext .js,.ts src/ --fix",
     "lint:css": "stylelint \"./src/**/*.(s)css\"",
     "fix:css": "stylelint \"./src/**/*.(s)css\" --fix",
     "pre-commit": "lint-staged",
