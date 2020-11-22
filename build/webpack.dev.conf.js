@@ -1,13 +1,14 @@
 const webpack = require('webpack');
 const { merge } = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const StylelintPlugin = require('stylelint-webpack-plugin');
 
 const baseWebpackConfig = require('./webpack.base.conf');
 const { path: PATHS } = baseWebpackConfig.externals;
 
 const devWebpackConfig = merge(baseWebpackConfig, {
   mode: 'development',
-  devtool: 'eval-cheap-source-map',
+  devtool: 'source-map',
   devServer: {
     port: process.env.APP_PORT,
     hot: true,
@@ -15,6 +16,15 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       warnings: false,
       errors: true,
     },
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(js|ts)$/,
+        exclude: /node_modules/,
+        use: ['babel-loader', 'eslint-loader'],
+      },
+    ],
   },
   plugins: [
     new webpack.SourceMapDevToolPlugin({
@@ -27,9 +37,10 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         minify: false,
       },
     }),
+    new StylelintPlugin(),
   ],
 });
 
-module.exports = new Promise((resolve, reject) => {
+module.exports = new Promise((resolve) => {
   resolve(devWebpackConfig);
 });

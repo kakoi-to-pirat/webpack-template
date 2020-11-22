@@ -20,7 +20,7 @@ module.exports = {
     path: PATHS,
   },
   entry: {
-    app: './App.js',
+    app: ['@babel/polyfill', './App.ts'],
   },
   output: {
     filename: '[name].[contenthash].js',
@@ -48,11 +48,9 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(js|ts)$/,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-        },
+        use: ['babel-loader'],
       },
       {
         test: /\.(css|scss)$/,

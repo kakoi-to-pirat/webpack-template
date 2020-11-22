@@ -1,7 +1,7 @@
 :root {
-    --mainColor: rgba(53, 60, 80, 1);
-    --bgColor: rgba(53, 60, 80, .05);
-    --hoverColor: rgba(53, 60, 80, .05);
-    --borderRadius: 4px;
-    --fontSize: 18px;
+  --mainColor: rgba(53, 60, 80, 1);
+  --bgColor: rgba(53, 60, 80, 0.05);
+  --hoverColor: rgba(53, 60, 80, 0.05);
+  --borderRadius: 4px;
+  --fontSize: 18px;
 }
