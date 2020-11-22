@@ -5,27 +5,33 @@ const Dotenv = require('dotenv-webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
-const TerserWebpackPlugin = require('terser-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
-const isDev = process.env.NODE_ENV === 'development';
-const isProd = !isDev;
+const PATHS = {
+  root: path.resolve(__dirname, '../'),
+  src: path.join(__dirname, '../src'),
+  dist: path.join(__dirname, '../dist'),
+  public: path.join(__dirname, '../public'),
+  assets: 'assets/',
+};
 
 module.exports = {
-  context: path.resolve(__dirname, 'src'),
+  context: PATHS.src,
+  externals: {
+    path: PATHS,
+  },
   entry: {
     app: './App.js',
   },
   output: {
     filename: '[name].[contenthash].js',
-    path: path.resolve(__dirname, './dist'),
+    path: PATHS.dist,
     publicPath: '',
   },
   resolve: {
     extensions: ['.js', '.ts'],
     alias: {
-      '@': path.resolve(__dirname, 'src'),
+      '~': PATHS.src,
     },
   },
   optimization: {
@@ -39,9 +45,6 @@ module.exports = {
         },
       },
     },
-    minimizer: isProd
-      ? [new OptimizeCssAssetsWebpackPlugin(), new TerserWebpackPlugin()]
-      : [],
   },
   module: {
     rules: [
@@ -54,7 +57,13 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader'],
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: { sourceMap: true },
+          },
+        ],
       },
       {
         test: /\.(png|jpg|svg|ttf|eot|woff|woff2)$/,
@@ -73,29 +82,16 @@ module.exports = {
       },
     ],
   },
-  devServer: {
-    port: 3000,
-    hot: isDev,
-  },
-  // devtool: isDev ? 'source-map' : '',
   plugins: [
     new Dotenv({
-      path: path.resolve(__dirname, './.env'),
-      safe: true,
-    }),
-    new HtmlWebpackPlugin({
-      template: require.resolve('./public/index.html'),
-      title: process.env.APP_TITLE,
-      minify: {
-        collapseWhitespace: isProd,
-      },
+      path: `${PATHS.root}/.env`,
     }),
     new CleanWebpackPlugin(),
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: path.resolve(__dirname, './public/favicon.ico'),
-          to: path.resolve(__dirname, './dist'),
+          from: `${PATHS.public}/favicon.ico`,
+          to: PATHS.dist,
         },
       ],
     }),
