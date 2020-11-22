@@ -23,7 +23,11 @@
   },
   "lint-staged": {
     "*.{js,ts}": [
-      "lint",
+      "eslint --ext .js,.ts .",
+      "git add"
+    ],
+    "*.{scss,css}": [
+      "stylelint \"**/*.(s)css\"",
       "git add"
     ]
   },
